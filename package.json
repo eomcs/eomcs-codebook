@@ -1,0 +1,20 @@
+{
+  "name": "eomcs-codebook",
+  "version": "1.0.0",
+  "description": "A viewer of programming source with markdown comments",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/eomcs/eomcs-codebook",
+  "keywords": [
+    "eomcs",
+    "codebook",
+    "viewer"
+  ],
+  "author": "Jinyoung Eom",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  }
+}
