@@ -1,0 +1,24 @@
+/* source Box ----------------------------- */
+
+.source-box {
+  display: block;
+  position: relative;
+  padding: 2em;
+  /* background-color: var(--color-bg); */
+  /* color: black; */
+}
+
+.source-box pre {
+  background-color: var(--color-bg-code);
+  margin-bottom: 20px;
+}
+
+.source-box pre.terminal {
+  border-radius: 0;
+  color: var(--color-terminal);
+  background-color: var(--color-bg-terminal);
+}
+
+.source-box pre.terminal code {
+  color: var(--color-terminal);
+}

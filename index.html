@@ -1,19 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+<head>
+  <meta charset="UTF-8">
+  <title>CodeBook</title>
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/nativize.css">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/section.css">
+  <link rel="stylesheet" href="assets/css/demo.css">
+  <link rel="stylesheet" href="assets/css/source-view.css">
+  <link rel="stylesheet" href="./node_modules/highlight.js/styles/darkula.css">
+  <link rel="stylesheet" href="./node_modules/prismjs/themes/prism.css">
+  <link rel="stylesheet" href="assets/css/codebook.css">
+
+  <link rel="import" href="views/template/source-link.html" data-type="template" data-templateid="source-link">
+
+  <link rel="import" href="views/section/source-view.html" data-type="section">
+
+</head>
+<body>
+
+  <nav class="nav js-nav">
+    <header class="nav-header">
+      <h1 class="nav-title">EOMCS-<strong>CodeBook</strong></h1>
+    </header>
+
+    <div class="nav-item u-category-menu">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="assets/img/icons.svg#icon-menu"></use></svg>
+        <span id='examples-dir'>Examples</span>
+      </h5>
+      <div class="source-list"></div>
+    </div>    
+  </nav>
+  <main class="content js-content"></main>
+  
+  <script>
+    // link 태그에서 가져온 콘텐츠를 main 태그에 추가한다.
+    require('./assets/imports')
+
+    // 페이지 이동에 관련된 코드 실행
+    require('./assets/nav')
+
+    // 메인 메뉴의 이벤트 처리
+    require('./renderer-process/application-menu')
+    
+  </script>
+</body>
 </html>

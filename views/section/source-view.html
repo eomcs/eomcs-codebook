@@ -1,0 +1,19 @@
+<template class="task-template">
+  <section id="source-view-section" class="section js-section u-category-system">
+    <header class="section-header">
+      <div class="section-wrapper">
+        <h1>
+          <svg class="section-icon"><use xlink:href="assets/img/icons.svg#icon-system"></use></svg>
+          <span id="source-filename"></span>
+        </h1>
+      </div>
+    </header>
+
+    <div id="source-file-view" class="source-box"></div>
+
+    <script type="text/javascript">
+      require('./renderer-process/source-view')
+    </script>
+
+  </section>
+</template>
