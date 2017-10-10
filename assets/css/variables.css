@@ -8,11 +8,13 @@
   --color-link:     hsl(0,0%,22%);
   --color-terminal: white;
   --color-terminaltle: gray;
+  --color-plain: black;
 
   --color-border:   hsl(0,0%,88%);
   --color-bg:       hsl(0,0%,96%);
   --color-bg-code:  #f4f2f0;
   --color-bg-terminal: black;
+  --color-bg-plain: white;
 
   --color-accent:   black; /* Fallback */
 }

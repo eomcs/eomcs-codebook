@@ -21,4 +21,15 @@
 
 .source-box pre.terminal code {
   color: var(--color-terminal);
+  text-shadow: 0 0px white;
+}
+
+.source-box pre.plain-code {
+  border-radius: 0;
+  color: var(--color-plain);
+  background-color: var(--color-bg-plain);
+}
+
+.source-box pre.plain-code code {
+  background-color: var(--color-bg-plain);
 }
