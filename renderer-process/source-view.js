@@ -5,6 +5,8 @@ const Remarkable = require('remarkable')
 const Prism = require('prismjs');
 const langExt = require('../language-ext')
 
+require('prismjs/plugins/line-numbers/prism-line-numbers')
+
 let markdownRenderer = new Remarkable({
   html: true, // Enable HTML tags in source
   xhtmlOut: false, // Use '/' to close single tags (<br />)
@@ -112,7 +114,7 @@ function styleLineNumbers(element, lang) {
   for (var code of codeList) {
     code.parentElement.classList.add('line-numbers')
   }
-  require('prismjs/plugins/line-numbers/prism-line-numbers')
+  
 }
 
 
