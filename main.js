@@ -15,7 +15,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1280, 
+    width: 1280,
     height: 800
   })
 
@@ -27,7 +27,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -69,4 +69,3 @@ function loadScripts () {
 }
 
 loadScripts()
-
