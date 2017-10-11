@@ -5,6 +5,7 @@ const Remarkable = require('remarkable')
 const Prism = require('prismjs');
 const langExt = require('../language-ext')
 
+// 소스 코드에 줄 번호를 붙이는 작업을 수행할 Prism 플러그인 추가.
 require('prismjs/plugins/line-numbers/prism-line-numbers')
 
 let markdownRenderer = new Remarkable({
@@ -16,20 +17,7 @@ let markdownRenderer = new Remarkable({
 
   // Double + single quotes replacement pairs, when typographer enabled,
   // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-  quotes: '“”‘’',
-
-  // Modify the generated HTML by highlighting the code directly
-  // by Prismjs 
-  highlight: function (str, lang) {
-    loadPrismjsLanguagePlugin(lang)
-    var language =  isSupportedLanguage(lang) ? lang : 'markup';
-    
-    try {
-      return Prism.highlight(str, Prism.languages[language]);
-    } catch (err) {}
-
-    return ''; // use external default escaping
-  }, 
+  quotes: '“”‘’'
 })
 
 const section = document.querySelector('#source-view-section')
@@ -42,12 +30,20 @@ section.addEventListener('changedSourceFile', e => {
   var sourceFilePath = path.join(settings.get('sourceDir'), e.detail)
   let lang = langExt(path.extname(e.detail))
 
-
   fs.readFile(sourceFilePath, 'utf8', (err, sourceCode) => {
     if (err) throw err;
-
+    
     var markdownCode = toMarkdownCode(sourceCode, lang)
     sourceFileView.innerHTML = markdownRenderer.render(markdownCode)
+    
+    // 줄 번호를 붙일 소스 코드 지정하기.
+    applyLineNumbers(sourceFileView, lang)
+    
+    // Prismjs에서 코드 컬러링 작업할 때 사용할 프로그래밍 언어 규칙 추가.
+    loadPrismjsLanguagePlugin(lang)
+
+    // Prismjs를 이용하여 <pre><code>...</code></pre>에 들어 있는 소스코드에 컬러링 적용하기
+    Prism.highlightAll();
 
     // terminal 코드에 대해 스타일 적용하기
     styleTerminalCode(sourceFileView)
@@ -55,9 +51,10 @@ section.addEventListener('changedSourceFile', e => {
     // 일반 코드에 대해 스타일 적용하기
     stylePlainCode(sourceFileView)
 
-    // 소스코드 줄 번호 적용하기
-    styleLineNumbers(sourceFileView, lang)
-    
+    var el = document.querySelectorAll('.line-numbers-row')
+    for (var e of el) {
+      console.log(e)
+    }
   });
 })
 
@@ -103,18 +100,27 @@ function styleTerminalCode(element) {
 }
 
 function stylePlainCode(element) {
-  var codeList = element.querySelectorAll('pre code:not([class|="language"])')
+  var codeList = element.querySelectorAll('pre code:not([class*="language"])')
   for (var code of codeList) {
     code.parentElement.classList.add('plain-code')
   }
 }
 
-function styleLineNumbers(element, lang) {
+function applyLineNumbers(element, lang) {
   var codeList = element.querySelectorAll('pre code.language-' + lang)
+  var startLineNo = 1;
   for (var code of codeList) {
     code.parentElement.classList.add('line-numbers')
+
+    // 화면에 출력될 코드의 시작 줄 번호를 설정한다.  
+    code.parentElement.setAttribute('data-start', startLineNo)
+
+    // <code>에 들어 있는 코드의 줄 수를 알아낸다.
+    let results = code.innerHTML.match(/\n(?!$)/g)
+
+    // 시작 줄 번호에 현재 코드의 줄 수를 더해서 다음 코드의 시작 줄 번호를 계산한다.
+    startLineNo += results ? results.length + 1 : 1
   }
-  
 }
 
 
@@ -133,8 +139,3 @@ function loadPrismjsLanguagePlugin(language) {
   return true
 }
 
-function isSupportedLanguage(lang) {
-  if (Prism.languages[lang])
-    return true
-  return false
-}
