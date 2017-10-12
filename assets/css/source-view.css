@@ -4,8 +4,11 @@
   display: block;
   position: relative;
   padding: 2em;
-  /* background-color: var(--color-bg); */
-  /* color: black; */
+  color: black;
+}
+
+.source-box h2 {
+  color: var(--color-accent);
 }
 
 .source-box pre {
@@ -32,4 +35,26 @@
 
 .source-box pre.plain-code code {
   background-color: var(--color-bg-plain);
+}
+
+.section-header h1 > button {
+  color: #fff;
+  background-color: #aeb6bd;
+  border-color: #aeb6bd;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  padding: 1px 4px;
+}
+
+.section-header h1 > button:hover
+ {
+  background-color: #6c7279;
+  text-decoration: none;
+}
+
+.section-header h1 > button:focus {
+  outline: none;
 }

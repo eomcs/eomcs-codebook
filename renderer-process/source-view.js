@@ -4,6 +4,7 @@ const settings = require('electron-settings')
 const Remarkable = require('remarkable')
 const Prism = require('prismjs');
 const langExt = require('../language-ext')
+const {clipboard} = require('electron')
 
 // 소스 코드에 줄 번호를 붙이는 작업을 수행할 Prism 플러그인 추가.
 require('prismjs/plugins/line-numbers/prism-line-numbers')
@@ -24,15 +25,32 @@ const section = document.querySelector('#source-view-section')
 const sourceFilename = document.querySelector('#source-filename')
 const sourceFileView = document.querySelector('#source-file-view')
 
+let sourcePath;
+let sourceLang;
+let sourceCode;
+
 section.addEventListener('changedSourceFile', e => {
   setSourceViewTitle(e.detail)
 
-  var sourceFilePath = path.join(settings.get('sourceDir'), e.detail)
-  let lang = langExt(path.extname(e.detail))
+  sourcePath = path.join(settings.get('sourceDir'), e.detail)
+  sourceLang = langExt(path.extname(sourcePath))
 
-  fs.readFile(sourceFilePath, 'utf8', (err, sourceCode) => {
+  loadSourceFile(sourcePath, sourceLang)
+})
+
+document.querySelector('#reload-source').addEventListener('click', (e) => {
+  loadSourceFile(sourcePath, sourceLang)
+})
+
+document.querySelector('#copy-source').addEventListener('click', (e) => {
+  clipboard.writeText(sourceCode)
+})
+
+function loadSourceFile(path, lang) {
+  fs.readFile(path, 'utf8', (err, data) => {
     if (err) throw err;
     
+    sourceCode = data
     var markdownCode = toMarkdownCode(sourceCode, lang)
     sourceFileView.innerHTML = markdownRenderer.render(markdownCode)
     
@@ -55,14 +73,14 @@ section.addEventListener('changedSourceFile', e => {
     for (var e of el) {
       console.log(e)
     }
-  });
-})
+  })
+}
 
-function toMarkdownCode(sourceCode, lang) {
+function toMarkdownCode(source, lang) {
   var markdownCode = ''
   var isCodeBlock = false
 
-  sourceCode.split('\n').forEach((value, index) => {
+  source.split('\n').forEach((value, index) => {
     if (value.startsWith('//:')) {
       if (isCodeBlock) { // 코드 블록을 끝낸다. 
         markdownCode += '```\n'
