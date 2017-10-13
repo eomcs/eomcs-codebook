@@ -43,6 +43,16 @@ document.querySelector('#reload-source').addEventListener('click', (e) => {
 })
 
 document.querySelector('#copy-source').addEventListener('click', (e) => {
+  var sourceOnly = '';
+  sourceCode.split('\n').forEach((value, index) => {
+    if (value.indexOf('//:') == -1) {
+      sourceOnly += value + '\n'
+    }
+  })
+  clipboard.writeText(sourceOnly)
+})
+
+document.querySelector('#copy-source-with-description').addEventListener('click', (e) => {
   clipboard.writeText(sourceCode)
 })
 
