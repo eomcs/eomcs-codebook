@@ -49,14 +49,14 @@ document.querySelector('#copy-source').addEventListener('click', (e) => {
 function loadSourceFile(path, lang) {
   fs.readFile(path, 'utf8', (err, data) => {
     if (err) throw err;
-    
+
     sourceCode = data
     var markdownCode = toMarkdownCode(sourceCode, lang)
     sourceFileView.innerHTML = markdownRenderer.render(markdownCode)
-    
+
     // 줄 번호를 붙일 소스 코드 지정하기.
     applyLineNumbers(sourceFileView, lang)
-    
+
     // Prismjs에서 코드 컬러링 작업할 때 사용할 프로그래밍 언어 규칙 추가.
     loadPrismjsLanguagePlugin(lang)
 
@@ -81,8 +81,11 @@ function toMarkdownCode(source, lang) {
   var isCodeBlock = false
 
   source.split('\n').forEach((value, index) => {
+    if (value.indexOf('//:') != -1) {
+      value = value.trim();
+    }
     if (value.startsWith('//:')) {
-      if (isCodeBlock) { // 코드 블록을 끝낸다. 
+      if (isCodeBlock) { // 코드 블록을 끝낸다.
         markdownCode += '```\n'
         isCodeBlock = false
       }
@@ -96,7 +99,7 @@ function toMarkdownCode(source, lang) {
       markdownCode += value + '\n'
     }
   })
-  if (isCodeBlock) { // 코드 블록을 끝낸다. 
+  if (isCodeBlock) { // 코드 블록을 끝낸다.
     markdownCode += '```\n'
   }
 
@@ -130,7 +133,7 @@ function applyLineNumbers(element, lang) {
   for (var code of codeList) {
     code.parentElement.classList.add('line-numbers')
 
-    // 화면에 출력될 코드의 시작 줄 번호를 설정한다.  
+    // 화면에 출력될 코드의 시작 줄 번호를 설정한다.
     code.parentElement.setAttribute('data-start', startLineNo)
 
     // <code>에 들어 있는 코드의 줄 수를 알아낸다.
@@ -156,4 +159,3 @@ function loadPrismjsLanguagePlugin(language) {
   }
   return true
 }
-
