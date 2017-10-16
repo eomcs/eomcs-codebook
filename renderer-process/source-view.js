@@ -29,10 +29,11 @@ let sourcePath;
 let sourceLang;
 let sourceCode;
 
+
 section.addEventListener('changedSourceFile', e => {
   setSourceViewTitle(e.detail)
 
-  sourcePath = path.join(settings.get('sourceDir'), e.detail)
+  sourcePath = path.join(settings.get('selectedDir'), e.detail)
   sourceLang = langExt(path.extname(sourcePath))
 
   loadSourceFile(sourcePath, sourceLang)
@@ -153,7 +154,6 @@ function applyLineNumbers(element, lang) {
     startLineNo += results ? results.length + 1 : 1
   }
 }
-
 
 function setSourceViewTitle(title) {
   sourceFilename.innerHTML = title

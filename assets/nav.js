@@ -16,13 +16,13 @@ function handleSectionTrigger (event) {
   deselectButtons()
   highlightClickedButton(event.target)
   
-  if (event.target.dataset.section == section) return;
-
-  hideAllSections()
+  if (event.target.dataset.section != section) {
+    // 선택된 색션을 보관한다.
+    section = event.target.dataset.section
+    // 기존에 출력된 색션을 모두 감춘다.
+    hideAllSections()
+  } 
   displaySection(event.target.dataset.section + '-section')
-  
-  // Save currently active section type
-  section = event.target.dataset.section
 }
 
 function fireChangedSourceFileEvent(data) {
