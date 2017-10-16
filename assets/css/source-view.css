@@ -17,7 +17,6 @@
 }
 
 .source-box pre.terminal {
-  border-radius: 0;
   color: var(--color-terminal);
   background-color: var(--color-bg-terminal);
 }
@@ -28,7 +27,6 @@
 }
 
 .source-box pre.plain-code {
-  border-radius: 0;
   color: var(--color-plain);
   background-color: var(--color-bg-plain);
 }
